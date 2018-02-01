@@ -1,37 +1,11 @@
 import HttpProvider, { HttpProviderError } from '@cerebral/http'
 import { redirectToSignal } from '@cerebral/router/operators'
-import StorageModule from '@cerebral/storage'
-import Useragent from '@cerebral/useragent'
 import { Module } from 'cerebral'
+import { storage, useragent } from './modules'
+import info from './modules/info'
+import search from './modules/search'
 import router from './router'
 import * as sequences from './sequences'
-
-const useragent = Useragent({
-  parse: {
-    browser: true,
-    device: true,
-  },
-  feature: true,
-  window: true,
-  offline: {
-    checkOnLoad: false,
-    interceptRequests: true,
-    reconnect: {
-      initialDelay: 3,
-      delay: 1.5,
-    },
-    requests: false,
-  },
-})
-
-const storage = StorageModule({
-  target: localStorage,
-  json: true,
-  sync: {
-    'query': 'query',
-  },
-  prefix: 'myapp',
-})
 
 export default Module({
   state: {
@@ -45,6 +19,8 @@ export default Module({
   },
   modules: {
     router,
+    search,
+    info,
     storage,
     useragent,
   },
